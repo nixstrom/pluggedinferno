@@ -1,6 +1,7 @@
 import Component from 'inferno-component';
 import ComboCard from './containers/ComboCardContainer';
 import SignUpModal from './containers/SignUpModalContainer';
+import Base from './services/base';
 import './App.css';
 
 
@@ -9,6 +10,12 @@ class App extends Component {
 		super(props);
 
 		console.clear();
+	}
+
+	componentWillMount() {
+		console.log('componentWillMount');
+
+		//this.ref = Base.synState();
 	}
 
 	shouldComponentUpdate(nextProps) {

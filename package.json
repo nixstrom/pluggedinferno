@@ -3,16 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "firebase": "^4.6.0",
     "inferno": "^3.3.1",
     "inferno-component": "^3.3.1",
-    "inferno-redux": "^3.6.4"
+    "inferno-redux": "^3.6.4",
+    "re-base": "^3.0.5"
   },
   "devDependencies": {
-    "inferno-scripts": "3.0.0"
+    "inferno-scripts": "3.0.0",
+    "node-sass": "^4.5.3",
+    "npm-run-all": "^4.1.1"
   },
   "scripts": {
-    "start": "inferno-scripts start",
-    "build": "inferno-scripts build",
+    "build-css": "node-sass src/ -o src/",
+    "watch-css": "npm run build-css && node-sass src/ -o src/ --watch --recursive",
+    "start-js": "inferno-scripts start",
+    "start": "npm-run-all -p watch-css start-js",
+    "build": "npm run build-css && inferno-scripts build",
     "test": "inferno-scripts test --env=jsdom",
     "eject": "inferno-scripts eject"
   }
