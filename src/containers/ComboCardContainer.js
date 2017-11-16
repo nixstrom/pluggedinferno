@@ -2,8 +2,10 @@ import { connect } from 'inferno-redux';
 import { toggleShowAddParticipantModal, removeComboParticipant } from '../actions/actions';
 import ComboCard from '../components/comboCard';
 
-const mapStateToProps = () => {
-	return {}
+const mapStateToProps = state => {
+	return {
+		uid: state.uid,
+	}
 };
 
 const mapDispatchToProps = dispatch => {
@@ -11,8 +13,8 @@ const mapDispatchToProps = dispatch => {
 		onSignupButtonClick: (id) => {
 			dispatch(toggleShowAddParticipantModal(id))
 		},
-		onCancelButtonClick: (id) => {
-			dispatch(removeComboParticipant(id))
+		onCancelButtonClick: (id, uid) => {
+			dispatch(removeComboParticipant(id, uid))
 		},
 		onComboEntryClick: (id) => {
 			dispatch(toggleShowAddParticipantModal(id))

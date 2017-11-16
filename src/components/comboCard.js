@@ -9,13 +9,13 @@ class ComboCard extends Component {
 		super(props);
 
 		this.state = {
-			isUserSignedUp: AppQueries.getIsUserSignedUp(props.participants)
+			isUserSignedUp: AppQueries.getIsUserSignedUp(props.participants, props.uid)
 		}
 	}
 
 	componentWillReceiveProps(nextProps) {
 		this.setState({
-			isUserSignedUp: AppQueries.getIsUserSignedUp(nextProps.participants)
+			isUserSignedUp: AppQueries.getIsUserSignedUp(nextProps.participants, nextProps.uid)
 		});
 	}
 
@@ -26,6 +26,7 @@ class ComboCard extends Component {
 	render() {
 		const {
 			id,
+			uid,
 			title,
 			body,
 			endSignupTime,
@@ -41,7 +42,7 @@ class ComboCard extends Component {
 		return (
 			<article className="card">
 				<header>
-					<h1>{title}</h1>
+					<h1>{title} {id}</h1>
 					<div className="card__info">
 						<div className="card__info-item">
 							<div className="card__info-item-inner">
@@ -76,7 +77,8 @@ class ComboCard extends Component {
 							<ComboEntry
 								name={data.name}
 								id={id}
-								isUser={data.isUser}
+								uid={data.uid}
+								isUser={data.uid === uid}
 								onComboEntryClick={isUserSignedUp ? onComboEntryClick : null}
 							/>
 						)

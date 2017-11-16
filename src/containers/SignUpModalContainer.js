@@ -1,17 +1,20 @@
 import { connect } from 'inferno-redux'
 import { addComboParticipant, toggleShowAddParticipantModal } from '../actions/actions'
-import * as AppQueries from '../queries/AppQueries';
+//import * as AppQueries from '../queries/AppQueries';
 import SignUpModal from '../components/signUpModal'
 
 const mapStateToProps = (state, ownProps) => {
-	const combo = state.combos.filter(combo => combo.id === state.showAddParticipantModal)[0];
-	const isUserSignedUp = AppQueries.getIsUserSignedUp(combo.participants);
+	const { uid, combos, showAddParticipantModal } = state;
 
+	console.log(showAddParticipantModal);
+	// const combo = combos.filter(combo => combo.id === showAddParticipantModal)[0];
+	// const isUserSignedUp = AppQueries.getIsUserSignedUp(combo.participants, uid);
 
 	return {
-		id: state.showAddParticipantModal,
+		id: showAddParticipantModal,
+		uid,
 		combo,
-		userName: isUserSignedUp ? 'megatrack' : state.userName,
+		//userName: isUserSignedUp ? AppQueries.getUserFromCombo(combo.participants, uid) : '',
 		isUserSignedUp,
 	}
 };
@@ -22,9 +25,11 @@ const mapDispatchToProps = dispatch => {
 		onCloseButtonClick: (id) => {
 			dispatch(toggleShowAddParticipantModal(false))
 		},
-		onSubmit: (id, value) => {
+		onSubmit: (id, value, uid) => {
+
+			// TODO: Validate duplicate values
 			if (value && value.length) {
-				dispatch(addComboParticipant(id, value));
+				dispatch(addComboParticipant(id, value, uid));
 				dispatch(toggleShowAddParticipantModal(false));
 			}
 		},

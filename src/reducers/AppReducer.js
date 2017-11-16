@@ -1,4 +1,9 @@
+import * as Base from '../services/base';
+const dbRef = Base.db.ref('/');
+
 const combos = (state = [], action) => {
+	const currentUid = state.uid;
+
 	switch (action.type) {
 		case 'ADD_TODO':
 			return [
@@ -25,44 +30,57 @@ const combos = (state = [], action) => {
 			);
 
 		case 'ADD_COMBO_PARTICIPANT':
+			const { id, value, uid } = action;
+
+			const currentUid = state.uid;
+
+			const newComboState =
+				state.combos.map(combo =>
+					(combo.id === action.id) ?
+					{
+						...combo,
+						participants:
+							[
+							...combo.participants,
+							{
+								name: action.value,
+								uid: uid,
+							},
+						]
+					}
+					: combo
+			);
+			// const comboRef = Base.db.ref(`/combos/0/participants/`).push();
+			//
+			// comboRef.set({
+			// 	name: value,
+			// 	uid: uid,
+			// });
+
 			return {
 				...state,
-				combos: state.combos.map(combo =>
-						(combo.id === action.id) ?
-						{
-							...combo,
-							participants:
-								Boolean(combo.participants.filter((participant) => participant.isUser === true)[0]) ?
-								[
-									...combo.participants.filter((participant) => !participant.isUser),
-									{
-										name: action.value,
-										isUser: true,
-									},
-								] : [
-									...combo.participants,
-									{
-										name: action.value,
-										isUser: true,
-									},
-								],
-						}
-						: combo
-				),
+				combos: newComboState,
 				userName: action.value,
 			};
 
 			case 'REMOVE_COMBO_PARTICIPANT':
+				const newComboStateRemove =
+					state.combos.map(combo =>
+						(combo.id === action.id) ?
+						{
+							...combo,
+							participants: combo.participants.filter((participant) => participant.uid === currentUid)
+						}
+						: combo
+				);
+
+				dbRef.set({
+					combos: newComboStateRemove,
+				});
+
 				return {
 					...state,
-					combos: state.combos.map(combo =>
-							(combo.id === action.id) ?
-							{
-								...combo,
-								participants: combo.participants.filter((participant) => !participant.isUser)
-							}
-							: combo
-					),
+					combos: newComboStateRemove,
 				};
 
 		case 'TOGGLE_SHOW_ADD_PARTICIPANT_MODAL':
@@ -70,6 +88,12 @@ const combos = (state = [], action) => {
 				...state,
 				showAddParticipantModal: action.id ? action.id : false,
 			};
+
+		case 'SET_AUTH':
+			return {
+				...state,
+				uid: action.uid,
+			}
 
 		default:
 			return state;

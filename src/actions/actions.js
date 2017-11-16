@@ -21,18 +21,20 @@ export const toggleTodo = id => {
   }
 }
 
-export const addComboParticipant = (id, value) => {
-  return {
-    type: 'ADD_COMBO_PARTICIPANT',
-    id,
-	 value
-  }
+export const addComboParticipant = (id, value, uid) => {
+	return {
+		type: 'ADD_COMBO_PARTICIPANT',
+		id,
+		value,
+		uid,
+	}
 }
 
-export const removeComboParticipant = (id) => {
+export const removeComboParticipant = (id, uid) => {
   return {
     type: 'REMOVE_COMBO_PARTICIPANT',
-    id
+    id,
+	 uid,
   }
 }
 
@@ -41,4 +43,11 @@ export const toggleShowAddParticipantModal = id => {
     type: 'TOGGLE_SHOW_ADD_PARTICIPANT_MODAL',
     id
   }
+}
+
+export const setAuth = (uid) => {
+	return {
+		type: 'SET_AUTH',
+		uid,
+	}
 }

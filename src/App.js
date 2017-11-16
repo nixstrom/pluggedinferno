@@ -1,7 +1,9 @@
+import * as Base from './services/base';
 import Component from 'inferno-component';
 import ComboCard from './containers/ComboCardContainer';
 import SignUpModal from './containers/SignUpModalContainer';
-import Base from './services/base';
+import Loader from './components/loader';
+
 import './App.css';
 
 
@@ -10,12 +12,22 @@ class App extends Component {
 		super(props);
 
 		console.clear();
+
+		this.handleGetAuth();
+
+		this.state = {
+			combos: {},
+		};
 	}
 
-	componentWillMount() {
-		console.log('componentWillMount');
+	componentDidMount() {
+		const getCombos = this.props.handleGetCombos();
 
-		//this.ref = Base.synState();
+		Promise.resolve(getCombos).then((data) => {
+			this.setState({
+				combos: data
+			});
+		});
 	}
 
 	shouldComponentUpdate(nextProps) {
@@ -30,22 +42,53 @@ class App extends Component {
 		}
 	}
 
+	componentWillReceiveProps(nextProps) {
+		const getCombos = nextProps.handleGetCombos();
+
+		Promise.resolve(getCombos).then((data) => {
+			this.setState({
+				combos: data
+			});
+		});
+	}
+
+	handleGetAuth() {
+		const { onSetAuth } = this.props;
+		const localUid = localStorage.getItem('uid');
+
+		if (localUid) {
+			onSetAuth(localUid);
+		} else {
+			Base.auth.signInAnonymously().then((data) => {
+				onSetAuth(data.uid);
+				localStorage.setItem('uid', data.uid);
+			});
+		}
+	}
+
+	handleAddFirebaseListeners() {
+
+	}
+
 	render() {
-		const { combos, showAddParticipantModal } = this.props;
+		const { showAddParticipantModal } = this.props;
+		const { combos } = this.state;
 
 		return (
 			<div>
 				<main className="main">
-					{combos.map(combo => (
-						<ComboCard
-							id={combo.id}
-							title={combo.title}
-							body={combo.body}
-							endSignupTime={combo.endSignupTime}
-							startComboTime={combo.startComboTime}
-							participants={combo.participants}
-						/>
-					))}
+					{Object.keys(combos).length ?
+						Array.from(combos).map(combo => (
+							<ComboCard
+								id={combo.key}
+								title={combo.title}
+								body={combo.body}
+								endSignupTime={combo.endSignupTime}
+								startComboTime={combo.startComboTime}
+								participants={combo.participants}
+							/>
+						)
+					) : <Loader/>}
 				</main>
 
 				{showAddParticipantModal &&

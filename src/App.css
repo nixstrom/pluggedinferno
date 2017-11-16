@@ -30,78 +30,98 @@ a {
   justify-content: center;
   transform: translateY(0);
   transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1); }
-  .active-popup .main {
-    transform: translateY(100vh); }
+
+.active-popup .main {
+  transform: translateY(100vh); }
 
 .card {
   background: #fff;
+  box-shadow: 0 2px 5px;
   display: flex;
   flex: 0 1 20rem;
-  flex-flow: column wrap; }
-  .card__info-item {
-    border-style: solid;
-    border-width: 1px 1px 0;
-    border-color: #eee;
-    display: flex; }
-  .card__info-item-inner {
-    padding: .25rem; }
-    .card__info-item-inner:first-child:not(:only-child) {
-      border-right: solid 1px #eee; }
-  .card__list {
-    background: #e6f4f5;
-    display: flex;
-    flex-flow: row wrap;
-    flex-grow: 1;
-    list-style: none;
-    margin: 0;
-    padding: .25rem; }
-  .card__list-item {
-    background: #fff;
-    flex: 1 0 auto;
-    height: 18px;
-    margin: .25rem;
-    padding: .25rem .5rem;
-    text-align: center; }
-    .card__list-item.is-user {
-      background: #1dccd0;
-      color: #fff;
-      cursor: pointer;
-      padding-left: 1rem;
-      position: relative;
-      transition: background-color .2s; }
-      .card__list-item.is-user::before {
-        content: '★';
-        display: inline-block;
-        color: #eaffaf;
-        position: absolute;
-        left: .5rem; }
-      .card__list-item.is-user:hover {
-        background: #3ce0e4; }
-  .card__button {
-    background: #1dccd0;
-    border: 0;
-    border-radius: 0;
-    color: #eaffaf;
-    cursor: pointer;
-    outline: 0;
-    font-size: 1rem;
-    font-weight: bold;
-    padding: 1rem;
-    text-transform: uppercase;
-    transition: background-color .2s, color .2s; }
-    .card__button span {
-      display: block;
-      transition: transform 0.275s cubic-bezier(0.86, 0, 0.07, 1);
-      will-change: transform; }
-    .card__button:hover {
-      background: #3ce0e4; }
-      .card__button:hover span {
-        transform: scale(1.2); }
-    .card__button--secondary {
-      background: #fff;
-      color: #1dccd0; }
-      .card__button--secondary:hover {
-        color: #eaffaf; }
+  flex-flow: column wrap;
+  margin: .25rem;
+  opacity: 0;
+  filter: blur(20px);
+  animation: blurIn .5s ease-in-out forwards; }
+
+.card__info-item {
+  border-style: solid;
+  border-width: 1px 1px 0;
+  border-color: #eee;
+  display: flex; }
+
+.card__info-item-inner {
+  padding: .25rem; }
+
+.card__info-item-inner:first-child:not(:only-child) {
+  border-right: solid 1px #eee; }
+
+.card__list {
+  background: #e6f4f5;
+  display: flex;
+  flex-flow: row wrap;
+  flex-grow: 1;
+  list-style: none;
+  margin: 0;
+  padding: .25rem; }
+
+.card__list-item {
+  background: #fff;
+  flex: 1 0 auto;
+  height: 18px;
+  margin: .25rem;
+  padding: .25rem .5rem;
+  text-align: center; }
+
+.card__list-item.is-user {
+  background: #1dccd0;
+  color: #fff;
+  cursor: pointer;
+  padding-left: 1rem;
+  position: relative;
+  transition: background-color .2s; }
+
+.card__list-item.is-user::before {
+  content: '★';
+  display: inline-block;
+  color: #eaffaf;
+  position: absolute;
+  left: .5rem; }
+
+.card__list-item.is-user:hover {
+  background: #3ce0e4; }
+
+.card__button {
+  background: #1dccd0;
+  border: 0;
+  border-radius: 0;
+  color: #eaffaf;
+  cursor: pointer;
+  outline: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 1rem;
+  text-transform: uppercase;
+  transition: background-color .2s, color .2s; }
+
+.card__button span {
+  display: block;
+  transition: transform 0.275s cubic-bezier(0.86, 0, 0.07, 1);
+  will-change: transform; }
+
+.card__button:hover {
+  background: #3ce0e4; }
+
+.card__button:hover span {
+  transform: scale(1.2); }
+
+.card__button--secondary {
+  background: #fff;
+  color: #1dccd0; }
+
+.card__button--secondary:hover {
+  color: #eaffaf; }
 
 .signup {
   position: absolute;
@@ -110,51 +130,97 @@ a {
   transform: translate(-50%, calc(-100vh - 50%));
   width: 50vw;
   transition: transform 0.6s cubic-bezier(0.86, 0, 0.07, 1); }
-  .active-popup .signup {
-    transform: translate(-50%, -50%); }
-  .signup h1 {
-    color: #fff; }
-  .signup__close-btn {
-    color: #fff;
-    cursor: pointer;
-    font-size: 2rem;
-    padding: .25rem;
-    position: absolute;
-    right: 1rem;
-    top: 1rem;
-    transition: background .2s; }
-    .signup__close-btn:hover {
-      background: #eee; }
-  .signup__form {
-    display: flex;
-    flex-flow: row wrap; }
-  .signup__form-item {
-    box-sizing: border-box;
-    flex: 0 0 100%; }
-    .signup__form-item--large {
-      flex: 1 0 100%;
-      font-size: 2rem; }
-  .signup__input, .signup__input--large {
-    box-sizing: border-box;
-    font-size: 1rem;
-    opacity: .9;
-    outline: 0;
-    padding: 1rem;
-    width: 100%;
-    transition: transform .4s ease-in-out, opacity .4s;
-    will-change: transform, opacity, margin; }
-    .signup__input:focus, .signup__input:hover, .signup__input--large:focus, .signup__input--large:hover {
-      opacity: 1; }
-    .signup__input--large, .signup__input--large--large {
-      border: 0;
-      box-sizing: border-box;
-      font-size: 1rem;
-      padding: 1rem;
-      width: 100%;
-      font-size: 2rem; }
-  .signup textarea {
-    font-size: 3rem;
-    width: 100%; }
+
+.active-popup .signup {
+  transform: translate(-50%, -50%); }
+
+.signup h1 {
+  color: #fff; }
+
+.signup__close-btn {
+  color: #fff;
+  cursor: pointer;
+  font-size: 2rem;
+  padding: .25rem;
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  transition: background .2s; }
+
+.signup__close-btn:hover {
+  background: #eee; }
+
+.signup__form {
+  display: flex;
+  flex-flow: row wrap; }
+
+.signup__form-item {
+  box-sizing: border-box;
+  flex: 0 0 100%; }
+
+.signup__form-item--large {
+  flex: 1 0 100%;
+  font-size: 2rem; }
+
+.signup__input, .signup__input--large {
+  box-sizing: border-box;
+  font-size: 1rem;
+  opacity: .9;
+  outline: 0;
+  padding: 1rem;
+  width: 100%;
+  transition: transform .4s ease-in-out, opacity .4s;
+  will-change: transform, opacity, margin; }
+
+.signup__input:focus, .signup__input:hover, .signup__input--large:focus, .signup__input--large:hover {
+  opacity: 1; }
+
+.signup__input--large, .signup__input--large--large {
+  border: 0;
+  box-sizing: border-box;
+  font-size: 1rem;
+  padding: 1rem;
+  width: 100%;
+  font-size: 2rem; }
+
+.signup textarea {
+  font-size: 3rem;
+  width: 100%; }
+
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 48%; }
+
+.line {
+  animation: expand 1s ease-in-out infinite;
+  border-radius: 10px;
+  display: inline-block;
+  transform-origin: center center;
+  margin: 0 3px;
+  width: 1px;
+  height: 25px; }
+
+.line:nth-child(1) {
+  background: #27ae60; }
+
+.line:nth-child(2) {
+  animation-delay: 180ms;
+  background: #f1c40f; }
+
+.line:nth-child(3) {
+  animation-delay: 360ms;
+  background: #e67e22; }
+
+.line:nth-child(4) {
+  animation-delay: 540ms;
+  background: #2980b9; }
+
+@keyframes expand {
+  0% {
+    transform: scale(1); }
+  25% {
+    transform: scale(2); } }
 
 @keyframes slideUp {
   100% {
@@ -169,7 +235,11 @@ a {
   10% {
     transform: translateY(-0.1em) scale(1.05);
     color: #ffe400; }
-  
   20% {
     transform: translateY(0) scale(1);
     color: #333; } }
+
+@keyframes blurIn {
+  100% {
+    opacity: 1;
+    filter: blur(0); } }
