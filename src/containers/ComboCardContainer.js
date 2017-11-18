@@ -13,8 +13,8 @@ const mapDispatchToProps = dispatch => {
 		onSignupButtonClick: (id) => {
 			dispatch(toggleShowAddParticipantModal(id))
 		},
-		onCancelButtonClick: (id, uid) => {
-			dispatch(removeComboParticipant(id, uid))
+		onCancelButtonClick: (id, participantKey) => {
+			dispatch(removeComboParticipant(id, participantKey))
 		},
 		onComboEntryClick: (id) => {
 			dispatch(toggleShowAddParticipantModal(id))

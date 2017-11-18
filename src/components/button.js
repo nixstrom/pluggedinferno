@@ -4,8 +4,8 @@ import Component from 'inferno-component';
 class Button extends Component {
 
 	render() {
-		const { id, className, title, onButtonClick } = this.props;
-		const handleClick = () => onButtonClick(id, title);
+		const { id, className, title, onButtonClick, participantKey } = this.props;
+		const handleClick = () => onButtonClick(id, participantKey);
 
 
 		return (

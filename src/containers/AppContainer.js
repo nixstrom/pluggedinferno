@@ -28,10 +28,22 @@ const mapDispatchToProps = dispatch => {
 					const newArr = [];
 
 					Object.keys(data).forEach((key) => {
-						data[key].key = key;
+						let participants = data[key].participants;
+						let participantKey = '';
+						let subArr = [];
+
+						Object.keys(participants).forEach((participant) => {
+							participants[participant].participantKey = participant;
+							subArr.push(participants[participant]);
+						});
+
+						data[key].id = key;
+						data[key].participants = subArr;
 
 						newArr.push(data[key]);
 					});
+
+					dispatch(actions.setCombos(newArr));
 
 					return newArr;
 				}),

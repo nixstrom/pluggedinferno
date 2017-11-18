@@ -1,87 +1,61 @@
 import * as Base from '../services/base';
-const dbRef = Base.db.ref('/');
+//const dbRef = Base.db.ref('/');
 
 const combos = (state = [], action) => {
 	const currentUid = state.uid;
 
 	switch (action.type) {
-		case 'ADD_TODO':
-			return [
-				...state,
-				{
-					id: action.id,
-					text: action.text,
-					completed: false
-				}
-			];
-
-		case 'TOGGLE_TODO':
-			return state.map(todo =>
-				(todo.id === action.id)
-				? {...todo, completed: !todo.completed}
-				: todo
-			);
-
-		case 'TOGGLE_ADD_PARTICPANT':
-			return state.map(todo =>
-				(todo.id === action.id)
-				? {...todo, completed: !todo.completed}
-				: todo
-			);
-
-		case 'ADD_COMBO_PARTICIPANT':
+		case 'EDIT_COMBO_PARTICIPANT':
 			const { id, value, uid } = action;
+			let fooRef;
 
-			const currentUid = state.uid;
-
-			const newComboState =
-				state.combos.map(combo =>
-					(combo.id === action.id) ?
-					{
-						...combo,
-						participants:
-							[
-							...combo.participants,
-							{
-								name: action.value,
-								uid: uid,
-							},
-						]
-					}
-					: combo
-			);
-			// const comboRef = Base.db.ref(`/combos/0/participants/`).push();
+			if (action.participantKey) {
+				fooRef = Base.db.ref(`combos/${parseInt(id, 10)}/participants/${action.participantKey}`);
+			} else {
+				fooRef = Base.db.ref(`combos/${parseInt(id, 10)}/participants/`).push();
+			}
+			// const isUserSignedUp = Boolean(state.combos[id].participants.filter((participant) => participant.uid === uid)[0]);
 			//
-			// comboRef.set({
-			// 	name: value,
-			// 	uid: uid,
-			// });
+			// console.log(isUserSignedUp, currentUid);
+
+
+			fooRef.set({
+				name: value,
+				uid: uid,
+			});
 
 			return {
 				...state,
-				combos: newComboState,
 				userName: action.value,
 			};
 
-			case 'REMOVE_COMBO_PARTICIPANT':
-				const newComboStateRemove =
-					state.combos.map(combo =>
-						(combo.id === action.id) ?
-						{
-							...combo,
-							participants: combo.participants.filter((participant) => participant.uid === currentUid)
-						}
-						: combo
-				);
+		case 'REMOVE_COMBO_PARTICIPANT':
+			const { participantKey } = action;
+			const participantRef = Base.db.ref(`combos/${parseInt(action.id, 10)}/participants/${participantKey}`);
 
-				dbRef.set({
-					combos: newComboStateRemove,
+			if (participantRef) {
+				participantRef.remove();
+			}
+
+			return {
+				...state,
+			};
+
+		case 'ADD_COMBO_PARTICIPANT':
+			const participantRefEdit = Base.db.ref(`combos/${parseInt(action.id, 10)}/participants/${action.participantKey}`);
+
+			console.log(action);
+
+			if (participantRefEdit) {
+				participantRefEdit.set({
+					name: action.value,
+					uid: action.uid,
 				});
+			}
 
-				return {
-					...state,
-					combos: newComboStateRemove,
-				};
+			return {
+				...state,
+			};
 
 		case 'TOGGLE_SHOW_ADD_PARTICIPANT_MODAL':
 			return {
@@ -93,6 +67,12 @@ const combos = (state = [], action) => {
 			return {
 				...state,
 				uid: action.uid,
+			}
+
+		case 'SET_COMBOS':
+			return {
+				...state,
+				combos: action.combos,
 			}
 
 		default:

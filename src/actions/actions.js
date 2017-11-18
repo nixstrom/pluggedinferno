@@ -30,11 +30,21 @@ export const addComboParticipant = (id, value, uid) => {
 	}
 }
 
-export const removeComboParticipant = (id, uid) => {
+export const editComboParticipant = (id, value, uid, participantKey) => {
+	return {
+		type: 'EDIT_COMBO_PARTICIPANT',
+		id,
+		value,
+		uid,
+		participantKey,
+	}
+}
+
+export const removeComboParticipant = (id, participantKey) => {
   return {
     type: 'REMOVE_COMBO_PARTICIPANT',
     id,
-	 uid,
+	 participantKey,
   }
 }
 
@@ -43,6 +53,13 @@ export const toggleShowAddParticipantModal = id => {
     type: 'TOGGLE_SHOW_ADD_PARTICIPANT_MODAL',
     id
   }
+}
+
+export const setCombos = (combos) => {
+	return {
+		type: 'SET_COMBOS',
+		combos,
+	}
 }
 
 export const setAuth = (uid) => {

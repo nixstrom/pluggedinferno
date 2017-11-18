@@ -23,6 +23,8 @@ class App extends Component {
 	componentDidMount() {
 		const getCombos = this.props.handleGetCombos();
 
+		//this.handleAddFirebaseListeners();
+
 		Promise.resolve(getCombos).then((data) => {
 			this.setState({
 				combos: data
@@ -30,10 +32,10 @@ class App extends Component {
 		});
 	}
 
-	shouldComponentUpdate(nextProps) {
-		return true;
-		//return Boolean(nextProps.combos[0].participants.length !== this.props.combos[0].participants.length);
-	}
+	// shouldComponentUpdate(nextProps) {
+	// 	return true;
+	// 	//return Boolean(nextProps.combos[0].participants.length !== this.props.combos[0].participants.length);
+	// }
 
 	componentDidUpdate(nextProps) {
 		// TODO: This is a mad way to do it, of course!
@@ -67,7 +69,11 @@ class App extends Component {
 	}
 
 	handleAddFirebaseListeners() {
-
+		// Base.db.ref('/combos/')
+		// 	.once('value', (snap) => {
+		// 		console.log('snap', snap);
+		// 	}
+		// );
 	}
 
 	render() {
@@ -80,7 +86,7 @@ class App extends Component {
 					{Object.keys(combos).length ?
 						Array.from(combos).map(combo => (
 							<ComboCard
-								id={combo.key}
+								id={combo.id}
 								title={combo.title}
 								body={combo.body}
 								endSignupTime={combo.endSignupTime}

@@ -2,16 +2,29 @@ import Component from 'inferno-component';
 // import * as AppQueries from '../queries/AppQueries';
 
 class SignUpModal extends Component {
+	shouldComponentUpdate(nextProps) {
+		return nextProps.id !== this.props.id;
+	}
+
 
 	render() {
-		const { onCloseButtonClick, onSubmit, combo, userName, isUserSignedUp, uid } = this.props;
-		const { id, title } = combo;
+		const { id, onCloseButtonClick, onSubmit, onEdit, participantKey, combo, userName, isUserSignedUp, uid } = this.props;
+		const { title } = combo;
 
 		// textInput must be declared here so the ref callback can refer to it
   		let textInput;
 
 		// TODO: validate input (should not accept empty strings)
-		const handleSubmit = () => onSubmit(id, textInput.value, uid);
+		const handleSubmit = () => {
+			if (textInput.value) {
+				console.log('is user signed up', isUserSignedUp);
+				if (isUserSignedUp) {
+					onEdit(id, textInput.value, uid, participantKey);
+				} else {
+					onSubmit(id, textInput.value, uid);
+				}
+			}
+		};
 		const handleCloseClick = () => onCloseButtonClick();
 
 		return (

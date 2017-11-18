@@ -23,6 +23,13 @@ class ComboCard extends Component {
 	// 	return this.state.isUserSignedUp !== nextState.isUserSignedUp;
 	// }
 
+
+	handleCancelClick(id) {
+		const { participants, uid, onCancelButtonClick } = this.props;
+		const participantKey = AppQueries.getUserKeyFromCombo(participants, uid);
+		onCancelButtonClick(id, participantKey);
+	}
+
 	render() {
 		const {
 			id,
@@ -32,8 +39,8 @@ class ComboCard extends Component {
 			endSignupTime,
 			startComboTime,
 			participants,
-			onSignupButtonClick,
 			onCancelButtonClick,
+			onSignupButtonClick,
 			onComboEntryClick,
 		} = this.props;
 
@@ -42,7 +49,7 @@ class ComboCard extends Component {
 		return (
 			<article className="card">
 				<header>
-					<h1>{title} {id}</h1>
+					<h1>{title}</h1>
 					<div className="card__info">
 						<div className="card__info-item">
 							<div className="card__info-item-inner">
@@ -89,6 +96,8 @@ class ComboCard extends Component {
 					<Button
 						id={id}
 						className='card__button card__button--secondary'
+						//onButtonClick={this.handleCancelButtonClick}
+						participantKey={AppQueries.getUserKeyFromCombo(participants, uid)}
 						onButtonClick={onCancelButtonClick}
 						title='Afmeld'
 					/>
@@ -97,6 +106,7 @@ class ComboCard extends Component {
 				{!isUserSignedUp &&
 					<Button
 						id={id}
+						key={AppQueries.getUserKeyFromCombo(participants, uid)}
 						className='card__button'
 						onButtonClick={onSignupButtonClick}
 						title='Tilmeld'
